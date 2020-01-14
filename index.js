@@ -4,8 +4,9 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { User } = require('./models/user');
+const config = require('./config/key')
 
-mongoose.connect("mongodb+srv://pic301:abcd1234@react-blog-boilerplate-tj7g4.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true })
+mongoose.connect(config.mongoURI, { useNewUrlParser: true })
 .then(() => console.log('DB Connected!'))
 .catch(err => {
 console.log(Error, err.message);
@@ -17,10 +18,11 @@ app.use(cookieParser());
 
 app.post('/api/users/register', (req,res)=>{
     const user = new User(req.body)
-    user.save((err, userData)=>{
+    user.save((err, doc)=>{
         if(err) return res.json({ success: false, err})
         return res.status(200).json({
-            success: true
+            success: true,
+            userData: doc
         })
     })
 })
