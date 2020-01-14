@@ -3,9 +3,11 @@ const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+
 const { User } = require("./models/user");
-const { auth } = require('./middleware/auth')
-const config = require("./config/key");
+const { auth } = require("./middleware/auth");
+
+ const config = require("./config/key");
 
 mongoose
   .connect(config.mongoURI, { useNewUrlParser: true })
@@ -18,16 +20,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.get("/api/user/auth",auth ,(req,res) =>{
+app.get("/api/user/auth", auth, (req, res) => {
   res.status(200).json({
-    _id:req._id,
+    _id: req._id,
     isAuth: true,
-    email:req.user.email,
+    email: req.user.email,
     name: req.user.name,
-    lastname:req.user.lastname,
+    lastname: req.user.lastname,
     role: req.user.role
-  })
-})
+  });
+});
 
 app.post("/api/users/register", (req, res) => {
   const user = new User(req.body);
@@ -40,7 +42,7 @@ app.post("/api/users/register", (req, res) => {
     });
   });
 });
- 
+
 app.post("/api/user/login", (req, res) => {
   // 이메일 찾기
   User.findOne({ email: req.body.email }, (err, user) => {
@@ -71,4 +73,12 @@ app.post("/api/user/login", (req, res) => {
   });
 });
 
+app.get("/api/user/logout", auth, (req, res) => {
+  User.findOneAndUpdate({ _id: req.user._id }, { token: ""}, (err, doc) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).send({
+      success: true
+    })
+  })
+})
 app.listen(5000);
