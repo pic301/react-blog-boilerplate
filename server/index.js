@@ -10,7 +10,8 @@ const { auth } = require("./middleware/auth");
  const config = require("./config/key");
 
 mongoose
-  .connect(config.mongoURI, { useNewUrlParser: true })
+  .set('useCreateIndex', true)
+  .connect(config.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true  })
   .then(() => console.log("DB Connected!"))
   .catch(err => {
     console.log(Error, err.message);
@@ -81,4 +82,8 @@ app.get("/api/user/logout", auth, (req, res) => {
     })
   })
 })
-app.listen(5000);
+
+const port = process.env.PORT || 5000
+app.listen(port, () =>{
+  console.log(`server Running at ${port}`)
+});
