@@ -3,13 +3,25 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engine":{
+    "node":"12.10.0",
+    "npm":"6.13.6"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server/index.js",
+    "backend": "nodemon server/index.js"
   },
   "author": "pic301",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^3.0.7",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
     "express": "^4.17.1",
-    "mongoose": "^5.4.20"
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.8.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
   }
 }
