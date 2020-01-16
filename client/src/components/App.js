@@ -4,6 +4,7 @@ import About from './about/'
 import  Login  from './RegisterLogin'
 import Home from './Home/Home'
 import Register from './RegisterLogin/register'
+import VideoUploadPage from './VideoUpload/VideoUploadPage'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Route path="/about" component={About}/>
       <Route path="/login" component={Login}/>
       <Route path="/register" component={Register}/>
+      <Route path="/viedo/upload" component={VideoUploadPage}/>
 
 
     </Switch>
