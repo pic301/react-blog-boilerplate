@@ -4,4 +4,4 @@ import user from './user_reducer'
 
 const rootReducer = combineReducers({user,chat})
 
-export default rootReducer;
+export default rootReducer; 
