@@ -25,11 +25,21 @@ class RegisterLogin extends Component {
 
     if (this.isFormvalid(this.state)) {
       this.setState({ error: [] });
-      this.props.dispatch(loginUser(dataToSubmit))
-      .then(response => console.log(response))
+      this.props.dispatch(loginUser(dataToSubmit)).then(response => {
+        if (response.payload.loginSuccess) {
+          this.props.history.push("/");
+        } else {
+          this.setState({
+            error: this.state.error.concat(
+              "로그인에 실패하였습니다. 이메일 또는 비밀번호를 확인하세요."
+            )
+          });
+        }
+      });
+    } else{
+        this.setState.concat("Form is not valid")
     }
-   
-  }
+  };
 
   isFormvalid = ({ email, password }) => email && password;
 
@@ -62,7 +72,7 @@ class RegisterLogin extends Component {
               <div className="input-field col s12">
                 <input
                   type="password"
-                   name="password"
+                  name="password"
                   id="password"
                   className="validate"
                   onChange={this.handleChange}
