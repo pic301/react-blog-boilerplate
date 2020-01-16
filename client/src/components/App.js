@@ -13,7 +13,7 @@ function App() {
       <Route path="/about" component={About}/>
       <Route path="/login" component={Login}/>
       <Route path="/register" component={Register}/>
-      <Route path="/viedo/upload" component={VideoUploadPage}/>
+      <Route path="/video/upload" component={VideoUploadPage}/>
 
 
     </Switch>
