@@ -1,36 +1,38 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { loginUser } from "../../actions/user_actions";
 
 class RegisterLogin extends Component {
   state = {
     email: "",
     password: "",
-    error: []
+    errors: []
   };
-  displayErrors = (errors) => 
-      errors.map((error,index) => 
-      <p key={index}>
-        {error}
-      </p>)
+  displayErrors = errors =>
+    errors.map((error, index) => <p key={index}>{error}</p>);
+
   handleChange = e => {
     this.setState({
       [e.target.name]: e.target.value
     });
   };
-  subminForm = (e) => {
-    e.preventDefault()
+  submitForm = e => {
+    e.preventDefault();
     let dataToSubmit = {
       email: this.state.email,
       password: this.state.password
-    }
+    };
 
-    if(this.isFormvalid(this.state)){
-       this.setState({ error: []})
+    if (this.isFormvalid(this.state)) {
+      this.setState({ error: [] });
+      this.props.dispatch(loginUser(dataToSubmit))
+      .then(response => console.log(response))
     }
+   
+  }
 
-    
-  };
-  isFormvalid = ({ email, password}) => email && password
-  
+  isFormvalid = ({ email, password }) => email && password;
+
   render() {
     return (
       <div className="container">
@@ -60,7 +62,7 @@ class RegisterLogin extends Component {
               <div className="input-field col s12">
                 <input
                   type="password"
-                  name="password"
+                   name="password"
                   id="password"
                   className="validate"
                   onChange={this.handleChange}
@@ -75,10 +77,8 @@ class RegisterLogin extends Component {
               </div>
             </div>
 
-            {this.state.erros.length > 0 &&(
-              <div>
-                    {this.displayErrors(this.state.errors)}
-              </div>
+            {this.state.errors.length > 0 && (
+              <div>{this.displayErrors(this.state.errors)}</div>
             )}
 
             <div className="row">
@@ -87,6 +87,7 @@ class RegisterLogin extends Component {
                   className="btn waves-effect gray lighten-2"
                   type="submit"
                   name="action"
+                  onClick={this.submitForm}
                 >
                   Login
                 </button>
@@ -99,4 +100,10 @@ class RegisterLogin extends Component {
   }
 }
 
-export default RegisterLogin;
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  };
+}
+
+export default connect(mapStateToProps)(RegisterLogin);
