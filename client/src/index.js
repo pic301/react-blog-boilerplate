@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -9,6 +9,9 @@ import promiseMiddleware from "redux-promise";
 import ReduxThunk from "redux-thunk";
 import Reducer from "./reducers";
 import { composeWithDevTools } from 'redux-devtools-extension';
+
+import "materialize-css/dist/css/materialize.min.css"
+
 
 const createStoreMiddleware = applyMiddleware(
   promiseMiddleware,
@@ -19,7 +22,8 @@ ReactDOM.render(
   <Provider
     store={createStoreMiddleware(
       Reducer,
-      composeWithDevTools(applyMiddleware(...middleware))
+      composeWithDevTools(applyMiddleware( promiseMiddleware,
+        ReduxThunk))
     )}
   >
     <BrowserRouter>
