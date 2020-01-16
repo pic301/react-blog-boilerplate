@@ -12,7 +12,6 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import "materialize-css/dist/css/materialize.min.css"
 
-
 const createStoreMiddleware = applyMiddleware(
   promiseMiddleware,
   ReduxThunk
