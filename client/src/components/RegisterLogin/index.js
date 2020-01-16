@@ -1,16 +1,36 @@
 import React, { Component } from "react";
 
 class RegisterLogin extends Component {
-  state={
-    email:"",
-    password:"",
-    error:[]
-  }
-  handleChange = (e) =>{
+  state = {
+    email: "",
+    password: "",
+    error: []
+  };
+  displayErrors = (errors) => 
+      errors.map((error,index) => 
+      <p key={index}>
+        {error}
+      </p>)
+  handleChange = e => {
     this.setState({
-      [e.target.name]:e.target.value
-    })
-  }
+      [e.target.name]: e.target.value
+    });
+  };
+  subminForm = (e) => {
+    e.preventDefault()
+    let dataToSubmit = {
+      email: this.state.email,
+      password: this.state.password
+    }
+
+    if(this.isFormvalid(this.state)){
+       this.setState({ error: []})
+    }
+
+    
+  };
+  isFormvalid = ({ email, password}) => email && password
+  
   render() {
     return (
       <div className="container">
@@ -44,7 +64,7 @@ class RegisterLogin extends Component {
                   id="password"
                   className="validate"
                   onChange={this.handleChange}
-                  value = {this.state.password}
+                  value={this.state.password}
                 />
                 <label htmlFor="password">Password</label>
                 <span
@@ -54,6 +74,12 @@ class RegisterLogin extends Component {
                 />
               </div>
             </div>
+
+            {this.state.erros.length > 0 &&(
+              <div>
+                    {this.displayErrors(this.state.errors)}
+              </div>
+            )}
 
             <div className="row">
               <div className="col s12">
