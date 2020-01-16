@@ -10,6 +10,7 @@ import ReduxThunk from "redux-thunk";
 import Reducer from "./reducers";
 import { composeWithDevTools } from 'redux-devtools-extension';
 
+
 import "materialize-css/dist/css/materialize.min.css"
 
 const createStoreMiddleware = applyMiddleware(

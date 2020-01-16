@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { registerUser } from '../../actions/user_actions'; 
 import { connect } from "react-redux";
 
+
 class register extends Component {
   state = {
     lastname: "",
