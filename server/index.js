@@ -21,9 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.get("/", (req,res) =>{
-  res.json({"hello": 'Welcome'})
-})
+app.use('/api/video', require('./routes/video'))
 
 app.get("/api/users/auth", auth, (req, res) => {
   res.status(200).json({

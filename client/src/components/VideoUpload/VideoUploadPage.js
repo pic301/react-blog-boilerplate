@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Dropzone from 'react-dropzone'
+import Axios from 'axios'
 
 const SelectOptions = [
   {value: 0, label: "Private"},
@@ -38,6 +39,22 @@ const VideoUploadPage = () => {
   const onSubmit = e => {
     e.preventDefault();
   };
+
+  const onDrop = (files) =>{
+    let formData = new FormData;
+    const config = {
+        header: {'content-type': 'multipart/form-data'}
+    }
+    formData.append("file", files[0])
+    console.log(files)
+    Axios.post('/api/video/uploadfiles',formData,config).then((response) => {
+       if(response.data.success){
+            console.log(response.data)
+       } else{
+         alert ('비디오 업로드 실패')
+       }
+    })
+  }
   return (
       
     <div style={{ maxWidth: "700px", margin: "2rem auto" }}>
@@ -47,9 +64,9 @@ const VideoUploadPage = () => {
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             {/* {Drop zone} */}
                 <Dropzone
-                    onDrop
-                    multiple
-                    maxSize
+                    onDrop={onDrop}
+                    multiple={false}
+                    maxSize={1000000000}
                     >
                         {
                             ({getRootProps,getInputProps}) => (
@@ -78,9 +95,9 @@ const VideoUploadPage = () => {
           <label>Description</label>
           <textarea onChange={onChangeDescription} value={description} />
 
-          <div class="input-field col s12">
-            <select onChange={onOptionChange}class="browser-default">
-              <option value="" disabled selected>
+          <div className="input-field col s12">
+            <select onChange={onOptionChange}className="browser-default" defaultValue={'DEFAULT'}>
+              <option value="DEFAULT" disabled>
                 Choose your Option
               </option>
               {
@@ -92,9 +109,9 @@ const VideoUploadPage = () => {
             </select>
             
           </div>
-          <div onChange={onCategoryChange} class="input-field col s12">
-            <select class="browser-default">
-              <option value="" disabled selected>
+          <div onChange={onCategoryChange} className="input-field col s12" >
+            <select className="browser-default" defaultValue={'DEFAULT'}>
+              <option value="DEFAULT" disabled   >
                 Choose your Category
               </option>
           
@@ -107,7 +124,7 @@ const VideoUploadPage = () => {
           </div>
 
           <button
-            class="btn waves-effect waves-light"
+            className="btn waves-effect waves-light"
             type="submit"
             name="action"
           >
