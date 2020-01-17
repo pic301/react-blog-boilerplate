@@ -21,7 +21,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+
 app.use('/api/video', require('./routes/video'))
+
+app.use('/uploads', express.static('uploads'));
 
 app.get("/api/users/auth", auth, (req, res) => {
   res.status(200).json({

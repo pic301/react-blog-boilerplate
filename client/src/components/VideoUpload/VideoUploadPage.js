@@ -21,6 +21,10 @@ const VideoUploadPage = () => {
   const [description,setDescription] = useState('')
   const [Option, setOption] = useState('0')
   const [Category, setCategory] = useState('0')
+  const [FilePath, setFilePath] = useState('')
+  const [Duration, setDuration] = useState('')
+  const [ThumbnailPath, setThumbnailPath] = useState('')
+  
   
 
   const onOptionChange = (e) =>{
@@ -41,15 +45,31 @@ const VideoUploadPage = () => {
   };
 
   const onDrop = (files) =>{
-    let formData = new FormData;
+    let formData = new FormData();
     const config = {
         header: {'content-type': 'multipart/form-data'}
     }
     formData.append("file", files[0])
     console.log(files)
+
     Axios.post('/api/video/uploadfiles',formData,config).then((response) => {
        if(response.data.success){
-            console.log(response.data)
+           console.log(response.data) 
+          let variable ={
+            url: response.data.url,
+            fileName: response.data.fileName
+          }
+          setFilePath(response.data.url)
+
+            Axios.post('/api/video/thumbnail', variable).then(response => {
+                if(response.data.success){
+                  console.log(response.data)
+                  setThumbnailPath(response.data.url)
+                  setDuration(response.data.fileDuration)
+                } else{
+                  alert('썸네일을 불러올 수 없습니다')
+                }
+            })
        } else{
          alert ('비디오 업로드 실패')
        }
@@ -82,7 +102,13 @@ const VideoUploadPage = () => {
                     
                
             {/* {Thumbnail} */}
-            <div></div>
+
+          {ThumbnailPath  &&
+            <div>
+              <img src={`http://localhost:5000/${ThumbnailPath}`} alt="thumbnail"/>
+            </div>
+          
+          }
           </div>
 
           <br />
